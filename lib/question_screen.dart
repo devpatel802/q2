@@ -1,12 +1,16 @@
+//import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
  import 'package:second/answer_button.dart';
 import 'package:second/data/question.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuestionScreen extends StatefulWidget {
-  const QuestionScreen({super.key});
+  const QuestionScreen({super.key, required this.onSelectAnswer,});
+  final void Function(String answer) onSelectAnswer;
+
   @override
   State<QuestionScreen> createState() {
     return _QuestionScreenState();
@@ -16,7 +20,8 @@ class QuestionScreen extends StatefulWidget {
 class _QuestionScreenState extends State<QuestionScreen> {
 
   var currentQuestionIndex = 0;
-  void answerQuestion(){
+  void answerQuestion(String selectedAnswers){
+    widget.onSelectAnswer('...');
     //currentQuestionIndex = currentQuestionIndex + 1;
     //currentQuestionIndex += 1;
     setState(() {
@@ -49,7 +54,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
             const SizedBox(height: 30),
         
             ...currentQuestion.getShuffledAnswer().map((answer) {
-              return AnswerButton(answerText: answer, onTap: answerQuestion,);
+              return AnswerButton(answerText: answer, onTap: (){
+                answerQuestion(answer);
+              },);
             } )          
           ],
         ),
